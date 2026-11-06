@@ -31,6 +31,27 @@ lazy evaluation, and cloud deployments.
 }
 ```
 
+For projects that pin a specific Polars version, the community
+[polars-mcp](https://github.com/r-brink/polars-mcp) server can run locally and inspect the Polars
+installation in the environment where it is launched. This helps an LLM use tools that match the
+installed version instead of relying on documentation for the latest release.
+
+```json
+{
+  "mcpServers": {
+    "polars_local": {
+      "command": "uvx",
+      "args": ["--with", "polars==<version>", "--with", "mcp<2", "polars-mcp"]
+    }
+  }
+}
+```
+
+Replace `<version>` with the Polars version pinned by your project. The `mcp<2` constraint is
+included because the current polars-mcp release is not compatible with MCP SDK 2.x. Use the local
+server when you need tools to match the Polars version installed in your environment, and the
+remote server when you want to query the latest official documentation.
+
 If you run into an issue or are missing a feature, please
 [open an issue](https://github.com/pola-rs/polars/issues) on the public issue tracker. We plan to
 expand the capabilities over time.
